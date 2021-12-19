@@ -1,4 +1,4 @@
-# N number of preview env on N cluster using argoCD
+# `N` number of `preview env` on `N cluster` using ArgoCD
 Dynamic environments based on pull requests are probably the best example of a need for a much higher level of dynamism.
 There is no need for anything, especially not environments to be permanent, except for production.
 By adopting GitOps best practices and Argo CD in a way that each pull request (PR) creates a new environment that is destroyed when a PR is closed. By doing that, we can improve efficiency while, at the same time, reducing the costs
