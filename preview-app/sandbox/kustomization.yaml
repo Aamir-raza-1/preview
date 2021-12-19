@@ -6,7 +6,7 @@ resources:
 - ../base
 replicas:
 - name: nginx-deployment
-  count: 1
+  count: 3
 images:
 - name: nginx
   newTag: 1.14.2
