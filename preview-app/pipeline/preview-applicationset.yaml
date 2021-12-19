@@ -28,7 +28,7 @@ spec:
         app: preview-app
         env: '{{env}}'
     spec:
-      project: 'preview-{{env}}'
+      project: preview
       source:
         repoURL: https://github.com/Aamir-raza-1/preview
         targetRevision: '{{ head_sha }}'
