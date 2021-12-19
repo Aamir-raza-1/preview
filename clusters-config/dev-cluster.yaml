@@ -1,0 +1,5 @@
+env: dev
+targetrevision: HEAD
+cluster:
+  name: dev-cluster-zeals
+  address: https://kubernetes.default.svc

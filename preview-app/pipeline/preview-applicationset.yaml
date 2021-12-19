@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: preview
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      generators:
+        - git:
+            repoURL: https://github.com/Aamir-raza-1/preview
+            revision: HEAD
+            files:
+            - path: "clusters-config/dev-cluster.yaml"
+        - pullRequest:
+            github:
+              # The GitHub organization or user.
+              owner: Aamir-raza-1
+              # The Github repository
+              repo: preview
+              # Labels is used to filter the PRs that you want to target. (optional)
+              labels:
+              - preview
+  template:
+    metadata:
+      name: 'preview-{{ branch }}-{{ number }}-{{cluster.name}}'
+      labels:
+        app: preview-app
+        env: '{{env}}'
+    spec:
+      project: 'preview-{{env}}'
+      source:
+        repoURL: https://github.com/Aamir-raza-1/preview
+        targetRevision: '{{ head_sha }}'
+        path: preview-app/sandbox
+      destination:
+        server: '{{cluster.address}}'
+        namespace: 'pr-{{ branch }}-{{ number }}'
+      syncPolicy:
+        automated:
+        # After PR merge, delete the resources except namespace
+          prune: true
+        # Enable for dynamic namespace creation
+        syncOptions:
+        - CreateNamespace=true
+  syncPolicy:
+    # Don't delete Application's child resources, on parent deletion:
+    preserveResourcesOnDeletion: false
